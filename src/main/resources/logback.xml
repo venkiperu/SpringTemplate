@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{dd-MM-yyyy} %d{HH:mm:ss.SSS} %-5level - %logger{36} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.base}/logs/SpringTemplate.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/SpringTemplate.%d{dd-MM-yyyy}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<Pattern>%d{dd-MM-yyyy} %d{HH:mm:ss.SSS} %-5level - %logger{36} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+
+
+</configuration>

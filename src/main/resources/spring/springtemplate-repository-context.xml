@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress DuplicatedBeanNamesInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd 
+     http://www.springframework.org/schema/data/mongo
+     http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+     http://www.springframework.org/schema/task
+     http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<context:component-scan base-package="com.gnovoa.repository" scoped-proxy="interfaces" />
+
+	<mongo:mongo host="${mongodb.host}" port="${mongodb.port}">
+		<mongo:options connections-per-host="1000" threads-allowed-to-block-for-connection-multiplier="5" connect-timeout="0"
+			max-wait-time="12000" auto-connect-retry="false" socket-keep-alive="false" socket-timeout="0" slave-ok="false" write-number="0"
+			write-timeout="0" write-fsync="false" />
+	</mongo:mongo>
+
+	<mongo:db-factory write-concern="SAFE" dbname="${mongodb.dbName}" mongo-ref="mongo" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+
+	<mongo:repositories base-package="com.ms.sppd.engine.repository" />
+</beans>
